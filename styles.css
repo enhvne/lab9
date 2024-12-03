@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(135, 162, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.game-container {
+    display: flex;
+    align-items: flex-start;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.left-side {
+    text-align: center;
+    margin-right: 20px;
+}
+.right-side {
+    text-align: center;
+}
+#hangmanImage {
+    max-width: 100%;
+    max-height: 50vh;
+    display: block;
+    margin: 20px auto;
+    border-radius: 5%;
+    height: auto;
+    width: auto;
+}
+#gameTitle {
+    font-size: 36px;
+    font-weight: bold;
+    color: rgb(196, 215, 255);
+    margin-bottom: 20px;
+}
+#wordDisplay {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    letter-spacing: 5px;
+    color: rgb(255, 154, 156);
+}
+#hint {
+    font-size: 13px;
+    color: #555;
+    margin: 10px 0;
+}
+#message {
+    font-size: 18px;
+    margin: 10px 0;
+    color: rgb(255, 244, 181);
+}
+.letters {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+.letters button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid rgb(255, 215, 196);
+    border-radius: 5px;
+    background-color: rgb(255, 244, 181);
+    cursor: pointer;
+}
+.letters button.correct {
+    background-color: #28a745;
+    color: white;
+}
+.letters button.wrong {
+    background-color: #dc3545;
+    color: white;
+}
+.letters button:disabled {
+    cursor: default;
+    opacity: 0.7;
+}

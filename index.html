@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="left-side">
+            <img id="hangmanImage" src="Image0.jpg" alt="Hang">
+        </div>
+        <div class="right-side">
+            <div id="gameTitle">Hangman Game</div>
+            <div id="wordDisplay">_ _ _ _</div>
+            <div id="hint">Hint: It's a programming language.</div>
+            <div id="message"></div>
+            <div class="letters" id="letters"></div>
+        </div>
+    </div>
+
+    <script>
+
+        const wordsWithHints = [
+            { word: "hummingbird", hint: "What bird can fly backward?" },
+            { word: "cat", hint: "A small animal related to lions." },
+            { word: "dog", hint: "A furry animal with four legs, pointed nose and a tail." },
+            { word: "hippo", hint: "Which mammal has the most powerful bite in the world?" },
+            { word: "shirt", hint: "What has a neck but no head, two arms but no hands?"},
+            { word: "bullfrog", hint: "Which animal never sleeps?"}
+        ];
+        let chosenWord = "";
+        let hint = "";
+        let guessedLetters = [];
+        let i = 0;
+        const m = 5;
+
+        const hangmanImage = document.getElementById("hangmanImage");
+        const wordDisplay = document.getElementById("wordDisplay");
+        const hintElement = document.getElementById("hint");
+        const message = document.getElementById("message");
+        const lettersContainer = document.getElementById("letters");
+
+        const hangmanImages = [
+            "Image0.jpg",
+            "Image1.jpg",
+            "Image2.jpg",
+            "Image3.jpg",
+            "Image4.jpg",
+            "lost.jpg"
+        ];
+        const wonImage = "won.jpg";
+
+        function startGame() {
+            const randomItem = wordsWithHints[Math.floor(Math.random() * wordsWithHints.length)];
+            chosenWord = randomItem.word;
+            hint = randomItem.hint;
+            guessedLetters = [];
+            i = 0;
+            updateWordDisplay();
+            hintElement.textContent = `Hint: ${hint}`;
+            createLetterButtons();
+            updateHangmanImage();
+            message.textContent = "";
+        }
+
+        function updateWordDisplay() {
+            wordDisplay.textContent = chosenWord
+                .split("")
+                .map(letter => (guessedLetters.includes(letter) ? letter : "_"))
+                .join(" ");
+        }
+
+        function createLetterButtons() {
+            lettersContainer.innerHTML = "";
+            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            alphabet.split("").forEach(letter => {
+                const button = document.createElement("button");
+                button.textContent = letter;
+                button.onclick = () => handleGuess(letter, button);
+                lettersContainer.appendChild(button);
+            });
+        }
+
+        function handleGuess(letter, button) {
+            if (guessedLetters.includes(letter)) return;
+
+            guessedLetters.push(letter);
+            button.disabled = true;
+
+            if (chosenWord.includes(letter)) {
+                button.classList.add("correct");
+                updateWordDisplay();
+                if (chosenWord.split("").every(char => guessedLetters.includes(char))) {
+                    message.textContent = "You won!";
+                    message.style.color = "green";
+                    hangmanImage.src = wonImage;
+                }
+            } else {
+                button.classList.add("wrong");
+                i++;
+                updateHangmanImage();
+                if (i === m) {
+                    message.textContent = `You lost! Word: ${chosenWord}`;
+                    message.style.color = "red";
+                }
+            }
+        }
+
+        function updateHangmanImage() {
+            hangmanImage.src = hangmanImages[i];
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
